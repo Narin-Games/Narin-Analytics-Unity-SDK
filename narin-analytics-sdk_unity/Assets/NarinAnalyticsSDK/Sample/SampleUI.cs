@@ -1,16 +1,14 @@
 ﻿using Narin.Unity.Analytics;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SampleUI : MonoBehaviour {
-    AnalyticsManager _analyticsManager;
+    IAnalyticsServices _analyticsServices;
 
     void Awake() {
-        _analyticsManager = AnalyticsBuilder.CurrentAnalyticsManager;    
+        _analyticsServices = AnalyticsBuilder.CurrentAnalyticsServices;    
     }
 
     public void Init_OnClick() {
-        _analyticsManager.Init();
+        _analyticsServices.Init();
     }
 }

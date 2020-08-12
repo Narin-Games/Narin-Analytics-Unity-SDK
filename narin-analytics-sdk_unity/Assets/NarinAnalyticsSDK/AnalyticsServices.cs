@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Narin.Unity.Analytics {
-    public class AnalyticsManager: MonoBehaviour {
+    public class AnalyticsServices: MonoBehaviour, IAnalyticsServices {
 
         private Dictionary<AnalyticsService, IAnalyticsService> _services = new Dictionary<AnalyticsService, IAnalyticsService>();
         private Dictionary<AnalyticsService, string> _publicKeys = new Dictionary<AnalyticsService, string>();
@@ -13,10 +12,25 @@ namespace Narin.Unity.Analytics {
             _publicKeys.Add(service, publicKey);
         }
 
-        public void Init() {
+        public void Init(string publicKey = null) {
             foreach(var service in _services.Keys) {
                 _services[service].Init(_publicKeys[service]);
             }
         }
+
+        public IAnalyticsService GetService(AnalyticsService service) {
+            return _services[service];
+        }
+
+        public IAnalyticsServices GetService(params AnalyticsService[] services) {
+            AnalyticsServices ret = new AnalyticsServices();
+
+            foreach(var service in services) {
+                ret.RegisterService(service, _services[service], _publicKeys[service]);
+            }
+
+            return ret;
+        }
+
     }
 }

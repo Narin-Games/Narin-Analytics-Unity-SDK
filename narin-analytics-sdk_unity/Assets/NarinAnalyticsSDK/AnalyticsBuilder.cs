@@ -1,5 +1,4 @@
-﻿using MetrixSDK;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Narin.Unity.Analytics {
@@ -8,7 +7,7 @@ namespace Narin.Unity.Analytics {
     }
 
     public partial class AnalyticsBuilder {
-        public static AnalyticsManager CurrentAnalyticsManager {get; private set;}
+        public static IAnalyticsServices CurrentAnalyticsServices {get; private set;}
 
         private Dictionary<AnalyticsService, string> _publicKeys = new Dictionary<AnalyticsService, string>();
 
@@ -16,10 +15,10 @@ namespace Narin.Unity.Analytics {
             _publicKeys.Add(service, publicKey);
         }
 
-        public AnalyticsManager BuildAndAttach(MonoBehaviour mono) {
-            AnalyticsManager ret = null;
+        public IAnalyticsServices BuildAndAttach(MonoBehaviour mono) {
+            AnalyticsServices ret = null;
             
-            ret = mono.gameObject.AddComponent<AnalyticsManager>();
+            ret = mono.gameObject.AddComponent<AnalyticsServices>();
 
             #if _dev_ || _fireanalytics_ 
             ret.RegisterService(
@@ -45,7 +44,7 @@ namespace Narin.Unity.Analytics {
                 );
             #endif
 
-            CurrentAnalyticsManager = ret;
+            CurrentAnalyticsServices = ret;
             return ret;
         }
 
