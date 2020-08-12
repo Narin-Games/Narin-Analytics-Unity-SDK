@@ -16,3 +16,43 @@ The advantages of this service for you include the following:
 3) Integrate multiple data analysis services with just one implementation
 4) Can be used in Distributed Build System to use different data analysis services for different releases
 
+## How To Use
+This system has three stages in its life cycle, which I will explain in order:
+
+**BUILD --> Initialize --> Use IAP Methods**
+
+### 1) Build:
+In this step you need to create an object of type IAnalyticsServices through the AnalyticsBuilder class To access the analytics service API through this object.
+
+You must first provide analytics services information to the AnalyticsBuilder class, as in the following code example:
+
+```csharp
+using Narin.Unity.Analytics;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class SampleInit : MonoBehaviour {
+
+    public const string METRIX_ID = "MetrixId";
+
+    void Awake() {
+    
+        // Check if IAnalyticsServices object is not build yet
+        if(AnalyticsBuilder.CurrentAnalyticsServices == null) {
+            
+            // Create a new builder object
+            AnalyticsBuilder builder = new AnalyticsBuilder();
+
+            // Set ID for each analytics services (Only Metrix need to pass ID in code)
+            builder.SetPublicKey(AnalyticsService.Metrix, METRIX_ID);
+
+            // Finally you must build the IAnalyticsServices and 
+            // Attached them to the gameObject that you passed reference as a parameter
+            builder.BuildAndAttach(this);
+        }
+
+        SceneManager.LoadScene(1);
+        Destroy(this);
+    }
+}
+```
