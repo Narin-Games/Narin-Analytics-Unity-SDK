@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SampleInit : MonoBehaviour {
     void Awake() {
         AnalyticsBuilder builder = new AnalyticsBuilder();
-        builder.SetPublicKey(AnalyticsService.Metrix, "");
+        builder.SetPublicKey(AnalyticsService.Metrix, "yrqtvixaaufpdal");
         builder.BuildAndAttach(this);
         SceneManager.LoadScene(1);
         Destroy(this);
