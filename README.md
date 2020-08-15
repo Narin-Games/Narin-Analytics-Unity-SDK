@@ -56,3 +56,61 @@ public class SampleInit : MonoBehaviour {
     }
 }
 ```
+**Notice 1-1:**
+
+The Build stage only needs to happen once when the game is run and after calling **AnalyticsBuilder.BuildAndAttach()**, you create a IAnalyticsServices component whose reference is stored in the static variable **AnalyticsBuilder.CurrentAnalyticsServices** and all the information entered about the store is reset in the IAPBuilder object.
+
+``` csharp
+//This static variable is set after calling IAPBuilder.BuildAndAttach()
+AnalyticsBuilder.CurrentAnalyticsServices
+```
+**Notice 1-2:**
+
+It is better to perform this step in a separate Scene that is loaded only once in the game.
+
+### 2) Initialize:
+Before using any of the **IAnalyticsServices** object methods, We must first initialize the all analytics services via the **IAnalyticsServices.Init()** method. after initializing analytics services you can get basic metrics (such as retunsion or session length) in any analytics you initialized.
+
+``` csharp
+using Narin.Unity.Analytics;
+using UnityEngine;
+
+public class SampleUI : MonoBehaviour {
+    IAnalyticsServices _analyticsServices;
+
+    void Awake() {
+        _analyticsServices = AnalyticsBuilder.CurrentAnalyticsServices;    
+    }
+
+    public void Init_OnClick() {
+        _analyticsServices.Init();
+    }
+}
+```
+### 3) Use Analytics Methods:
+
+## Sample
+In the [Sample Directory](https://github.com/Narin-Games/Narin-Analytics-Unity-SDK/tree/master/narin-analytics-sdk_unity/Assets/NarinAnalyticsSDK/Sample) there is a complete example of how to use the SDK that you can use.
+
+## Build and Export Project
+
+You need to do the following two steps before export from your project:
+
+### 1) Set Scripting Define Symbols:
+First, go to the following path in the Unity engine:
+
+**File > Build Settings > Player Settings > Player > Other Settings > Scripting Define Symbols**
+
+![unity-scripting-define-symbols]()
+
+Then in this path, define the specific symbol of that store according to the table:
+
+| Analytics Service     | Symbole           |
+| :--:                  | :--:              |
+| Metrix                | \_metrix_         |
+| GameAnalytics         | \_gameanalytics_  |
+| Firebase Ananlytics   | \_fireanalytics_  |
+
+
+This step causes only the code related to your wishes to be used in your final build.
+
