@@ -1,13 +1,22 @@
 ﻿using Narin.Unity.Analytics;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SampleInit : MonoBehaviour {
+
+    public const string METRIX_ID = "yrqtvixaaufpdal";
+
     void Awake() {
-        AnalyticsBuilder builder = new AnalyticsBuilder();
-        builder.SetPublicKey(AnalyticsService.Metrix, "yrqtvixaaufpdal");
-        builder.BuildAndAttach(this);
+
+        if(AnalyticsBuilder.CurrentAnalyticsServices == null) {
+
+            AnalyticsBuilder builder = new AnalyticsBuilder();
+
+            builder.SetPublicKey(AnalyticsService.Metrix, METRIX_ID);
+
+            builder.BuildAndAttach(this);
+        }
+
         SceneManager.LoadScene(1);
         Destroy(this);
     }

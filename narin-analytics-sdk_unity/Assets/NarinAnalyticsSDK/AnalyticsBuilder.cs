@@ -39,7 +39,7 @@ namespace Narin.Unity.Analytics {
             #if _dev_ || _gameanalytics_
             ret.RegisterService(
                  AnalyticsService.GameAnalytics
-                ,mono.gameObject.AddComponent<GameAnalyticesService>()
+                ,mono.gameObject.AddComponent<GameAnalyticsService>()
                 //,_publicKeys[AnalyticsService.GameAnalytics]
                 );
             #endif

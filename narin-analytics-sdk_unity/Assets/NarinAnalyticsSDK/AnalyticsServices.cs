@@ -32,5 +32,10 @@ namespace Narin.Unity.Analytics {
             return ret;
         }
 
+        public void RevenueEvent(Currency currency, int amount, string itemType, string itemId, string cartType, string slug = null) {
+            foreach(var service in _services.Keys) {
+                _services[service].RevenueEvent(currency, amount, itemType, itemId, cartType, slug);
+            }
+        }
     }
 }
