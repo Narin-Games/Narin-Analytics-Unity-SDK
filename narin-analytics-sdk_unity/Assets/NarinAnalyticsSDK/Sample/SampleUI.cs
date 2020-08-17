@@ -15,7 +15,8 @@ public class SampleUI : MonoBehaviour {
     }
 
     public void RevenueEvent_OnClick() {
-        _analyticsServices.RevenueEvent(Currency.IRR, 32000, "GemPack", "GemPack100", "MainMenuOnClick", SLUG_METRIX_ON_PURCHASED);
+        var _analyticsServices = AnalyticsBuilder.CurrentAnalyticsServices;
+        _analyticsServices.RevenueEvent(Currency.USD, 3.2f, "GemPack", "GemPack100", "MainMenuOnClick", SLUG_METRIX_ON_PURCHASED);
     }
 
 }

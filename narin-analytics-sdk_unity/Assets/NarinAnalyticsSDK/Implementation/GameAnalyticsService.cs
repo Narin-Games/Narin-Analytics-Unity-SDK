@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using GameAnalyticsSDK;
+using System.Runtime.InteropServices;
 
 namespace Narin.Unity.Analytics {
     public partial class AnalyticsBuilder {
@@ -12,8 +13,22 @@ namespace Narin.Unity.Analytics {
                 Debug.Log("GameAnalytics Initialized");
             }
 
-            public void RevenueEvent(Currency currency, int amount, string itemType, string itemId, string cartType, string slug=null) {
-                GameAnalytics.NewBusinessEvent(currency, amount, itemType, itemId, cartType);
+            public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType, string slug=null) {
+                int convertedAmount;
+
+                if(currency.CurrencyCodeNum == Currency.USD) {
+                    convertedAmount = ConvertDollarToCent(amount);
+                }
+                else {
+                    convertedAmount = Mathf.RoundToInt(amount);
+                }
+
+                GameAnalytics.NewBusinessEvent(currency, convertedAmount, itemType, itemId, cartType);
+                Debug.Log("GameAnalytics Sent Business Event");
+            }
+
+            public int ConvertDollarToCent (float dollar) {
+                return Mathf.RoundToInt(dollar*100);
             }
         }
     }

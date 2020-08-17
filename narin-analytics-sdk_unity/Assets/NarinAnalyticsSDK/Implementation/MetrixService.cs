@@ -14,18 +14,19 @@ namespace Narin.Unity.Analytics {
                 Debug.Log("Metrix Initialized");
             }
 
-            public void RevenueEvent(Currency currency, int amount, string itemType, string itemId, string cartType, string slug = null) {
+            public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType, string slug = null) {
                 Metrix.NewRevenue(slug, amount, GetMetrixCurrencyCode(currency), itemType +'.'+itemId);
+                Debug.Log("Metrix Sent Business Event");
             }
 
-            private int GetMetrixCurrencyCode (int currencyCode) {
+            private int GetMetrixCurrencyCode (int currencyCodeNum) {
                 int ret = -1;
 
-                if(currencyCode == Currency.IRR) ret = 0;
+                if(currencyCodeNum == Currency.IRR) ret = 0;
                 else
-                if(currencyCode == Currency.USD) ret = 1;
+                if(currencyCodeNum == Currency.USD) ret = 1;
                 else
-                if(currencyCode == Currency.EUR) ret = 3;
+                if(currencyCodeNum == Currency.EUR) ret = 3;
                 
                 return ret;
             }

@@ -15,16 +15,17 @@ namespace Narin.Unity.Analytics {
                 Debug.Log("Firebase Analytics Initialized");
             }
 
-            public void RevenueEvent(Currency currency, int amount, string itemType, string itemId, string cartType, string slug = null) {
+            public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType, string slug = null) {
                 
                 FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventPurchase, 
                      new Parameter(FirebaseAnalytics.ParameterCurrency      , currency.CurrencyCode)
-                    ,new Parameter(FirebaseAnalytics.ParameterItems         , itemType + '.' + itemId)
                     ,new Parameter(FirebaseAnalytics.ParameterValue         , amount)
+                    //,new Parameter(FirebaseAnalytics.ParameterItems         , itemType + '.' + itemId)
                     //,new Parameter(FirebaseAnalytics.ParameterAffiliation   , "Store Name")
                     //,new Parameter(FirebaseAnalytics.ParameterTransactionId , "TransactionId")
                     //,new Parameter(FirebaseAnalytics.ParameterTax           , 5.6)
                     );
+                Debug.Log("Firebase Analytics Sent Business Event");
             }
         }
     }
