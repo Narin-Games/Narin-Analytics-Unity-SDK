@@ -71,7 +71,7 @@ It is better to perform this step in a separate Scene that is loaded only once i
 ### 2) Initialize:
 Before using any of the **IAnalyticsServices** object methods, We must first initialize the all analytics services via the **IAnalyticsServices.Init()** method. after initializing analytics services you can get basic metrics (such as retunsion or session length) in any analytics you initialized.
 
-``` csharp
+```csharp
 using Narin.Unity.Analytics;
 using UnityEngine;
 
@@ -89,6 +89,34 @@ public class SampleUI : MonoBehaviour {
 ```
 ### 3) Use Analytics Methods:
 
+### 3-1) Revenue Event:
+This event is designed to record monetary income from in-app purchases.
+
+``` csharp
+public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType, string slug=null);
+```
+**Parameters:**
+
+|Parameter          | Used in Services  | Description |
+|:--                |:--:               |:--|
+|Currency currency  |GA, FA, M          |Currency code (e.g Currency.USD)                                               |
+|float amount       |GA, FA, M          |Payment Amount (e.g 3.2 is 3.2$)                                               |
+|string itemType    |GA                 |Type of package that paid for (e.g "GoldPack")                                 |
+|string itemId      |GA                 |Id of package that paid for (e.g "GoldPack100")                                |
+|string cartType    |GA                 |How and Where buy a package (e.g "EndOfLvl")                                   |
+|string slug        |M                  |Id that used for sending event to Metrix Service (You must get it from panel)  |
+
+**Restrictions:**
+|GameAnalytics                      |Firebase                           |Metrix |
+|:--:                               |:--:                               |:--:   |
+|Can't record Rial (IRR) payments   |Can't record Rial (IRR) payments   |Can't record Dollar (USD) payments|
+|                                   |Can't record package that paid for |Can't record package that paid for|
+
+**Sample Code:**
+```csharp
+var analyticsServices = AnalyticsBuilder.CurrentAnalyticsServices;
+analyticsServices.RevenueEvent(Currency.USD, 3.2f, "GemPack", "GemPack100", "MainMenuOnClick", "MetrixSlug");
+```
 ## Sample
 In the [Sample Directory](https://github.com/Narin-Games/Narin-Analytics-Unity-SDK/tree/master/narin-analytics-sdk_unity/Assets/NarinAnalyticsSDK/Sample) there is a complete example of how to use the SDK that you can use.
 
