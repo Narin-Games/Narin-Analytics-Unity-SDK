@@ -5,16 +5,14 @@ namespace Narin.Unity.Analytics {
     public class AnalyticsServices: MonoBehaviour, IAnalyticsServices {
 
         private Dictionary<AnalyticsService, IAnalyticsService> _services = new Dictionary<AnalyticsService, IAnalyticsService>();
-        private Dictionary<AnalyticsService, string> _publicKeys = new Dictionary<AnalyticsService, string>();
 
-        public void RegisterService(AnalyticsService service, IAnalyticsService serviceManager, string publicKey = null) {
+        public void RegisterService(AnalyticsService service, IAnalyticsService serviceManager) {
             _services.Add(service, serviceManager);
-            _publicKeys.Add(service, publicKey);
         }
 
-        public void Init(string publicKey = null) {
+        public void Init() {
             foreach(var service in _services.Keys) {
-                _services[service].Init(_publicKeys[service]);
+                _services[service].Init();
             }
         }
 
@@ -26,15 +24,21 @@ namespace Narin.Unity.Analytics {
             AnalyticsServices ret = new AnalyticsServices();
 
             foreach(var service in services) {
-                ret.RegisterService(service, _services[service], _publicKeys[service]);
+                ret.RegisterService(service, _services[service]);
             }
 
             return ret;
         }
 
-        public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType, string slug = null) {
+        public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType) {
             foreach(var service in _services.Keys) {
-                _services[service].RevenueEvent(currency, amount, itemType, itemId, cartType, slug);
+                _services[service].RevenueEvent(currency, amount, itemType, itemId, cartType);
+            }
+        }
+
+        public void ResourceEvent(ResourceFlowType flowType, string virtualCurrency, float amount, string itemType, string itemId, float wholeAmount = -1) {
+            foreach(var service in _services.Keys) {
+                _services[service].ResourceEvent(flowType, virtualCurrency, amount, itemType, itemId, wholeAmount);
             }
         }
     }

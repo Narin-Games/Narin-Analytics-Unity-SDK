@@ -6,16 +6,17 @@ using UnityEngine;
 using Firebase.Analytics;
 using Unity.Collections.LowLevel.Unsafe;
 using System;
+using System.Linq;
 
 namespace Narin.Unity.Analytics {
     public partial class AnalyticsBuilder {
 
         private class FirebaseAnalyticsService : SingletonMono<FirebaseAnalyticsService>, IAnalyticsService {
-            public void Init(string publicKey = null) {
+            public void Init() {
                 Debug.Log("Firebase Analytics Initialized");
             }
 
-            public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType, string slug = null) {
+            public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType) {
                 
                 FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventPurchase, 
                      new Parameter(FirebaseAnalytics.ParameterCurrency      , currency.CurrencyCode)
@@ -27,7 +28,24 @@ namespace Narin.Unity.Analytics {
                     );
                 Debug.Log("Firebase Analytics Sent Business Event");
             }
+
+            public void ResourceEvent(ResourceFlowType flowType, string virtualCurrency, float amount, string itemType, string itemId, float wholeAmount = -1) {
+                var pVCurrency  = new Parameter(FirebaseAnalytics.ParameterVirtualCurrencyName, virtualCurrency);
+                var pValue      = new Parameter(FirebaseAnalytics.ParameterValue, amount);
+                var pItem       = new Parameter(FirebaseAnalytics.ParameterItemId, itemType +'.'+itemId);
+                
+                if(flowType == ResourceFlowType.Source) {
+                    FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventEarnVirtualCurrency, pVCurrency, pValue);
+                }
+
+                else
+
+                if(flowType == ResourceFlowType.Sink) {
+                    FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventSpendVirtualCurrency, pItem, pVCurrency, pValue);
+                }
+            }
         }
+
     }
 }
 

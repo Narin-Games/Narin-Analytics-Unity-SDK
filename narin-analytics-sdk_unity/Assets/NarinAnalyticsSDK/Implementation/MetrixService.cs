@@ -2,20 +2,27 @@
 
 using UnityEngine;
 using MetrixSDK;
+using System.Collections.Generic;
 
 namespace Narin.Unity.Analytics {
     public partial class AnalyticsBuilder {
 
         private class MetrixService : SingletonMono<MetrixService>, IAnalyticsService {
+            private string _publicKey = null;
+            private Dictionary<EventType, Dictionary<string, string>> _slugTable;
+            public void SetNeededParameter(string publicKey, Dictionary<EventType, Dictionary<string, string>> slugTable) {
+                _publicKey = publicKey;
+                _slugTable = slugTable;
+            }
 
-            public void Init(string publicKey) {
-                var config = new MetrixConfig(publicKey);
+            public void Init() {
+                var config = new MetrixConfig(_publicKey);
                 Metrix.OnCreate(config);
                 Debug.Log("Metrix Initialized");
             }
 
-            public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType, string slug = null) {
-                Metrix.NewRevenue(slug, amount, GetMetrixCurrencyCode(currency), itemType +'.'+itemId);
+            public void RevenueEvent(Currency currency, float amount, string itemType, string itemId, string cartType) {
+                Metrix.NewRevenue(_slugTable[EventType.Revenue]["purchased"], amount, GetMetrixCurrencyCode(currency), itemType +'.'+itemId);
                 Debug.Log("Metrix Sent Business Event");
             }
 
@@ -29,6 +36,13 @@ namespace Narin.Unity.Analytics {
                 if(currencyCodeNum == Currency.EUR) ret = 3;
                 
                 return ret;
+            }
+
+            public void ResourceEvent(ResourceFlowType flowType, string virtualCurrency, float amount, string itemType, string itemId, float wholeAmount = -1) {
+                Metrix.NewEvent(_slugTable[EventType.Resource][virtualCurrency], new Dictionary<string, string> {
+                     {"Item", itemType + '.' + itemId }
+                    ,{"Value", wholeAmount.ToString() }
+                });
             }
         }
     }
