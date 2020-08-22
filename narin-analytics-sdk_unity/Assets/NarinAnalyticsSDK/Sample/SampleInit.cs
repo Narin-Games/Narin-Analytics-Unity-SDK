@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class SampleInit : MonoBehaviour {
 
-    public const string METRIX_ID = "yrqtvixaaufpdal";
+    private const string METRIX_ID = "yrqtvixaaufpdal";
 
     void Awake() {
 
@@ -13,6 +13,9 @@ public class SampleInit : MonoBehaviour {
             AnalyticsBuilder builder = new AnalyticsBuilder();
 
             builder.SetPublicKey(AnalyticsService.Metrix, METRIX_ID);
+
+            builder.SetRevenueSlug(AnalyticsService.Metrix, "ztcol");
+            builder.SetResourceSlug(AnalyticsService.Metrix, SampleUI.CURRENCY_NAME_GEM, "ccqxr");
 
             builder.BuildAndAttach(this);
         }

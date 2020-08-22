@@ -39,10 +39,16 @@ namespace Narin.Unity.Analytics {
             }
 
             public void ResourceEvent(ResourceFlowType flowType, string virtualCurrency, float amount, string itemType, string itemId, float wholeAmount = -1) {
-                Metrix.NewEvent(_slugTable[EventType.Resource][virtualCurrency], new Dictionary<string, string> {
-                     {"Item", itemType + '.' + itemId }
-                    ,{"Value", wholeAmount.ToString() }
-                });
+                Debug.LogWarning("Metrix does not support 'Resource' events");
+                //Metrix.NewEvent(_slugTable[EventType.Resource][virtualCurrency], new Dictionary<string, string> {
+                //     {"Item", itemType + '.' + itemId }
+                //    ,{"Value", wholeAmount.ToString() }
+                //});
+                //
+                //if(flowType == ResourceFlowType.Source)
+                //    Debug.Log("Metrix Sent Resource Source Event");
+                //if(flowType == ResourceFlowType.Sink)
+                //    Debug.Log("Metrix Sent Resource Sink Event");
             }
         }
     }

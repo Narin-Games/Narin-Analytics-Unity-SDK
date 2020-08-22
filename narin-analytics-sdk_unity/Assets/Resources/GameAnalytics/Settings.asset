@@ -60,8 +60,12 @@ MonoBehaviour:
   CustomDimensions01: []
   CustomDimensions02: []
   CustomDimensions03: []
-  ResourceItemTypes: []
-  ResourceCurrencies: []
+  ResourceItemTypes:
+  - GemPack
+  - LevelFinishReward
+  - CharacterSkin
+  ResourceCurrencies:
+  - Gem
   LastCreatedGamePlatform: 0
   Platforms: 0b000000
   CurrentInspectorState: 1
@@ -94,5 +98,5 @@ MonoBehaviour:
   CustomDimensions01FoldOut: 0
   CustomDimensions02FoldOut: 0
   CustomDimensions03FoldOut: 0
-  ResourceItemTypesFoldOut: 0
-  ResourceCurrenciesFoldOut: 0
+  ResourceItemTypesFoldOut: 1
+  ResourceCurrenciesFoldOut: 1

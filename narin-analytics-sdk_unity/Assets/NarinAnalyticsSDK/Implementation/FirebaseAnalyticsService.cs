@@ -1,12 +1,8 @@
 ﻿#if _dev_ || _fireanalytics_
 
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Firebase.Analytics;
-using Unity.Collections.LowLevel.Unsafe;
-using System;
-using System.Linq;
 
 namespace Narin.Unity.Analytics {
     public partial class AnalyticsBuilder {
@@ -36,12 +32,14 @@ namespace Narin.Unity.Analytics {
                 
                 if(flowType == ResourceFlowType.Source) {
                     FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventEarnVirtualCurrency, pVCurrency, pValue);
+                    Debug.Log("Firebase Analytics Sent Resource Source Event");
                 }
 
                 else
 
                 if(flowType == ResourceFlowType.Sink) {
                     FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventSpendVirtualCurrency, pItem, pVCurrency, pValue);
+                    Debug.Log("Firebase Analytics Sent Resource Sink Event");
                 }
             }
         }

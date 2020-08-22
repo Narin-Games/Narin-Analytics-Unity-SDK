@@ -28,6 +28,11 @@ namespace Narin.Unity.Analytics {
 
             public void ResourceEvent(ResourceFlowType flowType, string virtualCurrency, float amount, string itemType, string itemId, float wholeAmount = -1) {
                 GameAnalytics.NewResourceEvent(ConvertToGAFlowType(flowType), virtualCurrency, amount, itemType, itemId);
+
+                if(flowType == ResourceFlowType.Source)
+                    Debug.Log("GameAnalytics Sent Resource Source Event");
+                if(flowType == ResourceFlowType.Sink)
+                    Debug.Log("GameAnalytics Sent Resource Sink Event");
             }
 
             public GAResourceFlowType ConvertToGAFlowType (ResourceFlowType flowType) {

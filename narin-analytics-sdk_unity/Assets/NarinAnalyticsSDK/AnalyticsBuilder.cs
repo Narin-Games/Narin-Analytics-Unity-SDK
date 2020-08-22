@@ -30,6 +30,10 @@ namespace Narin.Unity.Analytics {
         }
 
         public void SetResourceSlug(AnalyticsService service, string virtualCurrency, string slug) {
+            if(service == AnalyticsService.Metrix) {
+                Debug.LogWarning("Metrix does not support 'Resource' events");
+            }
+
             SetEventSlug(_resourceSlugTable, service, virtualCurrency, slug);
         }
 
@@ -52,10 +56,12 @@ namespace Narin.Unity.Analytics {
                 ,metrix = mono.gameObject.AddComponent<MetrixService>()
                 );
 
-            var slugTable = new Dictionary<EventType, Dictionary<string, string>>() {
-                 {EventType.Revenue , _revenueSlugTable[AnalyticsService.Metrix] }
-                ,{EventType.Resource, _revenueSlugTable[AnalyticsService.Metrix] }
-            };
+            var slugTable = new Dictionary<EventType, Dictionary<string, string>>();
+
+            if(_resourceSlugTable.ContainsKey(AnalyticsService.Metrix)) {
+                slugTable.Add(EventType.Revenue , _revenueSlugTable[AnalyticsService.Metrix]);
+                slugTable.Add(EventType.Resource, _resourceSlugTable[AnalyticsService.Metrix]);
+            }
 
             metrix.SetNeededParameter(_publicKeys[AnalyticsService.Metrix], slugTable);
             #endif
