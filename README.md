@@ -45,7 +45,12 @@ public class SampleInit : MonoBehaviour {
 
             // Set ID for each analytics services (Only Metrix need to pass ID in code)
             builder.SetPublicKey(AnalyticsService.Metrix, METRIX_ID);
-
+            
+            //Some analytics services using slugs for each event that you sent
+            //You can define slug for each event that you sent
+            //This line define slug for revenue event in Metrix service
+            builder.SetRevenueSlug(AnalyticsService.Metrix, "ztcol");
+            
             // Finally you must build the IAnalyticsServices and 
             // Attached them to the gameObject that you passed reference as a parameter
             builder.BuildAndAttach(this);
