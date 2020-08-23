@@ -47,7 +47,6 @@ public class SampleInit : MonoBehaviour {
             builder.SetPublicKey(AnalyticsService.Metrix, METRIX_ID);
             
             //Some analytics services using slugs for each event that you sent
-            //You can define slug for each event that you sent
             //This line define slug for revenue event in Metrix service
             builder.SetRevenueSlug(AnalyticsService.Metrix, "ztcol");
             
@@ -74,7 +73,7 @@ AnalyticsBuilder.CurrentAnalyticsServices
 It is better to perform this step in a separate Scene that is loaded only once in the game.
 
 ### 2) Initialize:
-Before using any of the **IAnalyticsServices** object methods, We must first initialize the all analytics services via the **IAnalyticsServices.Init()** method. after initializing analytics services you can get basic metrics (such as retunsion or session length) in any analytics you initialized.
+Before using any of the **IAnalyticsServices** object methods, We must first initialize the all analytics services via the **IAnalyticsServices.Init()** method. after initializing analytics services you can get basic metrics (such as retuntion or session length) in any analytics you initialized.
 
 ```csharp
 using Narin.Unity.Analytics;
@@ -94,7 +93,18 @@ public class SampleUI : MonoBehaviour {
 ```
 ### 3) Use Analytics Methods:
 
-### 3-1) Revenue Event:
+### 3-1) Send events through one or more specific services:
+In this SDK you will be able to send an event through one or more specific services, such as the following code:
+```csharp
+// Get all available analytics services
+var analyticsServices          = AnalyticsBuilder.CurrentAnalyticsServices;
+
+// Get one or more specific services such as Firebase Analytics, GameAnalytics or ...
+var specificAnalyticServices   = AnalyticsBuilder.CurrentAnalyticsServices.GetService(AnalyticsService.FirebaseAnalytics, AnalyticsService.GameAnalytics);
+
+```
+
+### 3-2) Revenue Event:
 This event is designed to record monetary income from in-app purchases.
 
 ``` csharp
@@ -114,8 +124,10 @@ public void RevenueEvent(Currency currency, float amount, string itemType, strin
 **Restrictions:**
 |GameAnalytics                      |Firebase                           |Metrix |
 |:--:                               |:--:                               |:--:   |
-|Can't record Rial (IRR) payments   |Can't record Rial (IRR) payments   |Can't record Dollar (USD) payments|
-|                                   |Can't record package that paid for |Can't record package that paid for|
+|Can't record Rial (IRR) payments   |Can't record Rial (IRR) payments   |Only can record Dollar, Euro and Rial payments |
+|                                   |Can't record package that paid for |Can't record package that paid for             |
+
+### 3-3) Resource Event:
 
 **Sample Code:**
 ```csharp
@@ -145,5 +157,5 @@ Then in this path, define the specific symbol of that store according to the tab
 | Firebase Ananlytics   | \_fireanalytics_  |
 
 
-This step causes only the code related to your wishes to be used in your final build.
+This step causes only the code related to your release to be used in your final build.
 
