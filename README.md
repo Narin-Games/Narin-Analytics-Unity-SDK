@@ -125,7 +125,7 @@ public void RevenueEvent(Currency currency, float amount, string itemType, strin
 |GameAnalytics                      |Firebase                           |Metrix |
 |:--:                               |:--:                               |:--:   |
 |Can't record Rial (IRR) payments   |Can't record Rial (IRR) payments   |Only can record Dollar, Euro and Rial payments |
-|                                   |Can't record package that paid for |Can't record package that paid for             |
+|                                   |Can't record itemId that paid for  |Can't record itemId that paid for              |
 
 **Sample Code:**
 ```csharp
@@ -133,6 +133,32 @@ var analyticsServices = AnalyticsBuilder.CurrentAnalyticsServices;
 analyticsServices.RevenueEvent(Currency.USD, 3.2f, "GemPack", "GemPack100", "MainMenuOnClick", "MetrixSlug");
 ```
 ### 3-3) Resource Event:
+This event is designed to monitor virtual resources and in-game economy.
+
+```cshar
+void ResourceEvent(ResourceFlowType flowType, string virtualCurrency, float amount, string itemType, string itemId);
+```
+**Parameters:**
+
+|Parameter                  | Used in Services      | Description |
+|:--                        |:--:                   |:--                                            |
+|ResourceFlowType flowType  |GA, FA                 |Set sink or source resources                   |
+|string virtualCurrency     |GA, FA                 |Virtual Currency Name (e.g Gem, Gold or ...)   |
+|float amount               |GA, FA                 |Payment Amount (e.g 150 is 150 Gem)            |
+|string itemId              |GA, FA                 |Id of package that paid for (e.g "YellowSkin") |
+|string itemType            |GA, FA                 |Type of package that paid for (e.g "Skin")     |
+
+**Restrictions:**
+|GameAnalytics                      |Firebase                                                       |
+|:--:                               |:--:                                                           |
+|                                   |The Virtual Currency type is not registered in the Source event|
+|                                   |The itemId purchased will not be recorded in the Sink event    |
+
+**Sample Code:**
+```csharp
+var analyticsServices = AnalyticsBuilder.CurrentAnalyticsServices;
+analyticsServices.ResourceEvent(ResourceFlowType.Sink, "Gem", 10, "CharacterSkin", "YellowSkin");
+```
 
 ## Sample
 In the [Sample Directory](https://github.com/Narin-Games/Narin-Analytics-Unity-SDK/tree/master/narin-analytics-sdk_unity/Assets/NarinAnalyticsSDK/Sample) there is a complete example of how to use the SDK that you can use.
