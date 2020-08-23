@@ -127,13 +127,13 @@ public void RevenueEvent(Currency currency, float amount, string itemType, strin
 |Can't record Rial (IRR) payments   |Can't record Rial (IRR) payments   |Only can record Dollar, Euro and Rial payments |
 |                                   |Can't record package that paid for |Can't record package that paid for             |
 
-### 3-3) Resource Event:
-
 **Sample Code:**
 ```csharp
 var analyticsServices = AnalyticsBuilder.CurrentAnalyticsServices;
 analyticsServices.RevenueEvent(Currency.USD, 3.2f, "GemPack", "GemPack100", "MainMenuOnClick", "MetrixSlug");
 ```
+### 3-3) Resource Event:
+
 ## Sample
 In the [Sample Directory](https://github.com/Narin-Games/Narin-Analytics-Unity-SDK/tree/master/narin-analytics-sdk_unity/Assets/NarinAnalyticsSDK/Sample) there is a complete example of how to use the SDK that you can use.
 
